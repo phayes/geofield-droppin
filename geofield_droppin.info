@@ -1,0 +1,4 @@
+name = GeoField Drop-Pin
+description = "Proivides a streamlined widget for dropping a single pin on a map"
+core = 7.x
+dependencies[] = geofield (>=1)
