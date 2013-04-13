@@ -50,7 +50,7 @@
           // Add the base layer
           map.addLayer(layers['base'],true);
 
-          map.locate({setView: true, maxZoom: 16});
+          map.locate({setView: true, maxZoom: 14});
           
           // Create the overlay
           if ($geom.val()) {
@@ -66,6 +66,7 @@
           map.on('click', function(e) {
             if (marker) {
               marker.setLatLng(e.latlng);
+              $geom.val(getGejSON(marker));
             }
             else {
               marker = createMarker(e.latlng);
@@ -94,6 +95,8 @@
           marker.on('dragend', function() {
             $geom.val(getGejSON(marker));
           });
+          
+          $geom.val(getGejSON(marker));
 
           return marker;
         }
