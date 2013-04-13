@@ -32,7 +32,7 @@
             //$('.rnm-map-geocoder').attr('placeholder', Drupal.settings.RNMMap.location.city + ', ' + Drupal.settings.RNMMap.location.country_name);
             
             // Set the map center and zoom
-            initialCenter = [Drupal.settings.smart_ip.location.latitude, Drupal.settings.smart_ip.location.latitude.longitude];
+            initialCenter = [Drupal.settings.smart_ip.location.latitude, Drupal.settings.smart_ip.location.longitude];
             initialZoom = 12;
           }
           
