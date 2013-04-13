@@ -23,17 +23,16 @@
           var initialZoom = 2;
           
           // Get the users IP geolocation and override the initialCenter and initialZoom
-          
           if ($geom.val()) {
             var centerJSON = jQuery.parseJSON($geom.val());
             initialCenter = [centerJSON.coordinates[1], centerJSON.coordinates[0]];
             initialZoom = 13;
           }
-          else if (Drupal.settings.geofieldDropPin.location) {
+          else if (Drupal.settings.smart_ip.location.latitude) {
             //$('.rnm-map-geocoder').attr('placeholder', Drupal.settings.RNMMap.location.city + ', ' + Drupal.settings.RNMMap.location.country_name);
             
             // Set the map center and zoom
-            initialCenter = [Drupal.settings.geofieldDropPin.location.latitude, Drupal.settings.geofieldDropPin.location.longitude];
+            initialCenter = [Drupal.settings.smart_ip.location.latitude, Drupal.settings.smart_ip.location.latitude.longitude];
             initialZoom = 12;
           }
           
@@ -51,6 +50,8 @@
           // Add the base layer
           map.addLayer(layers['base'],true);
 
+          map.locate({setView: true, maxZoom: 16});
+          
           // Create the overlay
           if ($geom.val()) {
             var json = jQuery.parseJSON($geom.val());
@@ -64,8 +65,6 @@
           // Create the click event
           map.on('click', function(e) {
             if (marker) {
-              console.log(marker);
-              console.log(L.marker([50.5, 30.5]));
               marker.setLatLng(e.latlng);
             }
             else {
@@ -76,15 +75,26 @@
         }
         
         function createMarker(latlng) {
+          
+          var LeafIcon = L.Icon.extend({
+            options: {
+              iconSize:     [49, 56], // size of the icon
+              iconAnchor:   [11, 47], // point of the icon which will correspond to marker's location
+            }
+          });
+
+          var greenIcon = new LeafIcon({iconUrl: '/sites/all/themes/ripenearme/images/map_pin.png'});
+
           var marker = L.marker(latlng, {
             style: markerStyle,
-            draggable: true
+            draggable: true,
+            icon: greenIcon,
           });
           
           marker.on('dragend', function() {
             $geom.val(getGejSON(marker));
           });
-          
+
           return marker;
         }
         
