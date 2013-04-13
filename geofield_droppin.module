@@ -58,21 +58,72 @@ function geofield_droppin_field_widget_form(&$form, &$form_state, $field, $insta
     '#markup' => '<div id="'.$map_id.'" class="geofield-droppin-map" data-geom-id="'.$geom_id.'"></div>',
   );
 
-  // Add external libraries
-  drupal_add_js('http://cdn.leafletjs.com/leaflet-0.4/leaflet.js', 'external');
-  drupal_add_js('http://maps.google.com/maps/api/js?v=3.2&sensor=false', 'external');
-  drupal_add_css('http://cdn.leafletjs.com/leaflet-0.4/leaflet.css', 'external');
+  // Add JavaScript
+  $element['#attached']['js'] = array(
+    // External JS
+    array(
+      'data' => 'http://cdn.leafletjs.com/leaflet-0.4/leaflet.js', 
+      'type' => 'external',
+    ),
+    array(
+      'data' => 'http://maps.google.com/maps/api/js?v=3.2&sensor=false', 
+      'type' => 'external',
+    ),
+    
+    // Plugin JS
+    array(
+      'data' => drupal_get_path('module', 'geofield_droppin')  . '/libraries/leaflet-plugins/layer/tile/Google.js',
+      'type' => 'file',
+    ),
+    array(
+      'data' => drupal_get_path('module', 'geofield_droppin')  . '/libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.js',
+      'type' => 'file',
+    ),
+    
+    // Local JS
+    array(
+      'data' => drupal_get_path('module', 'geofield_droppin')  . '/geofield_droppin.js',
+      'type' => 'file',
+    ),
+  );
+  
+  // Add CSS
+  $element['#attached']['css'] = array(
+    // External CSS
+    array(
+      'data' => 'http://cdn.leafletjs.com/leaflet-0.4/leaflet.css', 
+      'type' => 'external',
+    ),
+    
+    // Plugin CSS
+    array(
+      'data' => drupal_get_path('module', 'geofield_droppin') . '/libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.css',
+      'type' => 'file',
+    ),
+    
+    // Local CSS
+    array(
+      'data' => drupal_get_path('module', 'geofield_droppin') . '/geofield_droppin.css',
+      'type' => 'file',
+    ),
+  );
+  
+  
+  
+  #drupal_add_js('http://cdn.leafletjs.com/leaflet-0.4/leaflet.js', 'external');
+  #drupal_add_js('http://maps.google.com/maps/api/js?v=3.2&sensor=false', 'external');
+  #drupal_add_css('http://cdn.leafletjs.com/leaflet-0.4/leaflet.css', 'external');
   //@@TODO: Add IE CSS: http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css
 
   // Add plugins
-  drupal_add_js(drupal_get_path('module', 'geofield_droppin')  . '/libraries/leaflet-plugins/layer/tile/Google.js');
-  drupal_add_js(drupal_get_path('module', 'geofield_droppin')  . '/libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.js');
-  drupal_add_css(drupal_get_path('module', 'geofield_droppin') . '/libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.css');
+  #drupal_add_js(drupal_get_path('module', 'geofield_droppin')  . '/libraries/leaflet-plugins/layer/tile/Google.js');
+  #drupal_add_js(drupal_get_path('module', 'geofield_droppin')  . '/libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.js');
+  #drupal_add_css(drupal_get_path('module', 'geofield_droppin') . '/libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.css');
   //@@TODO: Add IE CSS: /libraries/Leaflet.zoomslider/src/L.Control.Zoomslider.ie.css
 
   // Add local JavaScript and CSS
-  drupal_add_js(drupal_get_path('module', 'geofield_droppin')  . '/geofield_droppin.js');
-  drupal_add_css(drupal_get_path('module', 'geofield_droppin') . '/geofield_droppin.css');
+  #drupal_add_js(drupal_get_path('module', 'geofield_droppin')  . '/geofield_droppin.js');
+  #drupal_add_css(drupal_get_path('module', 'geofield_droppin') . '/geofield_droppin.css');
   
   // Find the user's location -- we use this if there is no current pin
   if (function_exists('geoip_city')) {
@@ -81,7 +132,12 @@ function geofield_droppin_field_widget_form(&$form, &$form_state, $field, $insta
   else {
     $location = FALSE;
   }
-  drupal_add_js(array('geofieldDropPin' => array('location' => $location)), 'setting');
+  $element['#attached']['js'][] = array(
+    'data' => array('geofieldDropPin' => array('location' => $location)),
+    'type' => 'settings',
+  );
+  
+  #drupal_add_js(array('geofieldDropPin' => array('location' => $location)), 'setting');
 
   return $element;
 }
