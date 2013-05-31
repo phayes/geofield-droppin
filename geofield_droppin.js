@@ -29,7 +29,7 @@
             initialZoom = 13;
           }
           else if (Drupal.settings.smart_ip.location.latitude) {
-            //$('.rnm-map-geocoder').attr('placeholder', Drupal.settings.RNMMap.location.city + ', ' + Drupal.settings.RNMMap.location.country_name);
+            $('.rnm-map-geocoder').attr('placeholder', Drupal.settings.RNMMap.location.city + ', ' + Drupal.settings.RNMMap.location.country_name);
             
             // Set the map center and zoom
             initialCenter = [Drupal.settings.smart_ip.location.latitude, Drupal.settings.smart_ip.location.longitude];
@@ -80,7 +80,7 @@
           var LeafIcon = L.Icon.extend({
             options: {
               iconSize:     [49, 56], // size of the icon
-              iconAnchor:   [11, 47], // point of the icon which will correspond to marker's location
+              iconAnchor:   [26, 58], // point of the icon which will correspond to marker's location
             }
           });
 
